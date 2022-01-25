@@ -3,9 +3,7 @@
 #include<vector>
 #include<string>
 #include<cstdlib>
-
 using namespace std;
-
 char score2grade(int score){
     if(score >= 80) return 'A';
     if(score >= 70) return 'B';
@@ -13,7 +11,6 @@ char score2grade(int score){
     if(score >= 50) return 'D';
     else return 'F';
 }
-
 string toUpperStr(string x){
     string y = x;
     for(unsigned i = 0; i < x.size();i++) y[i] = toupper(x[i]);
@@ -21,19 +18,68 @@ string toUpperStr(string x){
 }
 
 void importDataFromFile(){
+void importDataFromFile(string filename,vector<string> &names,vector<int> &scores,vector<char> &grades){
+    ifstream source;
+    source.open(filename.c_str());
+    string file1;
+    char check[]="%[^:]: %d %d %d";
+    char namae[100];
+    int a1,a2,a3;
+    while(getline(source,file1)){
+        sscanf(file1.c_str(),check,namae,&a1,&a2,&a3);
+        names.push_back(namae);
+        scores.push_back(a1+a2+a3);
+        grades.push_back(score2grade(a1+a2+a3));
+    }
+    source.close();
+}
+
+void getCommand(string &command,string &key){
+    string kay;
+    int sup;
+    cout<<"Please input your command: ";
+    getline(cin,key);
+    sup=key.find_first_of(" ");
+    command=key.substr(0,sup);
+    key=key.substr(sup+1);
 
 }
 
 void getCommand(){
+void searchName(vector<string> name,vector<int> scores,vector<char> grades,string key){
+    bool checker=false;
+    for(unsigned int i=0;i<name.size();i++){
+        if(key==toUpperStr(name[i])){
+            checker=true;
+            cout<<"---------------------------------"<<endl;
+            cout<<name[i]<<"'s score = "<<scores[i]<<endl;
+            cout<<name[i]<<"'s grade = "<<grades[i]<<endl;
+            cout<<"---------------------------------"<<endl;
+        }
 
 }
+        
 
 void searchName(){
+    }
+    if(checker==false){
+        cout<<"---------------------------------"<<endl;
+        cout<<"Cannot found."<<endl;
+        cout<<"---------------------------------"<<endl;
+    }
 
 }
 
 void searchGrade(){
 
+void searchGrade(vector<string> name,vector<int> scores,vector<char> grades,string key){
+    cout<<"---------------------------------"<<endl;
+    for(unsigned int i=0;i<grades.size();i++){
+        if(key[0]==grades[i]){
+            cout<<name[i]<<" "<<"("<<scores[i]<<")"<<endl;
+        }
+    }
+    cout<<"---------------------------------"<<endl;
 }
 
 
@@ -58,6 +104,6 @@ int main(){
             cout << "---------------------------------\n";
         }
     }while(true);
-    
+
     return 0;
 }
